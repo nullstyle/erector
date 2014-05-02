@@ -68,7 +68,10 @@ module Erector
         @output << @text
       end
       if @inside_renderer
-        @inside_renderer.call
+        current_length = @output.buffer.size
+        result = @inside_renderer.call
+        
+        @output << result if result.is_a?(String) && @output.buffer.length == current_length
       end
     end
 
